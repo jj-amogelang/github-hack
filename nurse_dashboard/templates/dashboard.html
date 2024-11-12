@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>DumelaHealth</h2>
+        <ul>
+            <li><a href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
+            <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
+            <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
+            <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li> 
+        </ul>
+    </div>
+    <div class="main-content">
+        <header class="navbar">
+            <div class="navbar-content">
+                <div class="search-container">
+                    <input type="text" placeholder="Search here...">
+                </div>
+                <div class="user-info">
+                    <div class="icon-container">
+                        <span class="icon">🔔</span> <!-- Notifications Icon -->
+                        <span class="icon">⚙️</span> <!-- Settings Icon -->
+                    </div>
+                    <div class="profile">
+                        <span>Liam Michael</span>
+                        <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="greeting">
+            <h2>Good Morning, Daniel Bruk</h2>
+            <p>Have a nice day at work it seems like you're referring to Daniel Bruk.</p>
+            <button>Create Appointment</button>
+        </section>
+        
+        <section class="stats">
+            <div class="stat">
+                <h3>Total Reported Symptoms</h3>
+                <p>350 <span>(Last 30 days)</span></p>
+            </div>
+            <div class="stat">
+                <h3>New Patients</h3>
+                <p>140 <span>(20% vs last month)</span></p>
+            </div>
+            <div class="stat">
+                <h3>Operations</h3>
+                <p>56 <span>(15% vs last month)</span></p>
+            </div>
+            <div class="stat">
+                <h3>Earnings</h3>
+                <p>$20,25 <span>(30% vs last month)</span></p>
+            </div>
+        </section>
+
+        <section class="heatmap">
+            <h3>Real-Time Location Heatmap</h3>
+            <div class="heatmap-placeholder">Heatmap Placeholder</div>
+        </section>
+
+        <section class="trending-conditions">
+            <h3>Trending Conditions</h3>
+            <ul>
+                <li>Condition A - 120 reports</li>
+                <li>Condition B - 95 reports</li>
+                <li>Condition C - 80 reports</li>
+            </ul>
+        </section>
+
+        <section class="urgent-alerts">
+            <h3>Urgent Alerts</h3>
+            <div class="alert">
+                <p><strong>Alert:</strong> Surge in flu cases reported in the downtown area!</p>
+            </div>
+            <div class="alert">
+                <p><strong>Alert:</strong> Outbreak of food poisoning in the north region!</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

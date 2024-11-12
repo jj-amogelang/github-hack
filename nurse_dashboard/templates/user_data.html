@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>User Data</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>DumelaHealth</h2>
+        <ul>
+            <li><a href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
+            <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
+            <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
+            <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li> 
+        </ul>
+    </div>
+    <div class="main-content">
+        <header class="navbar">
+            <div class="navbar-content">
+                <div class="search-container">
+                    <input type="text" placeholder="Search here...">
+                </div>
+                <div class="user-info">
+                    <div class="icon-container">
+                        <span class="icon">🔔</span> <!-- Notifications Icon -->
+                        <span class="icon">⚙️</span> <!-- Settings Icon -->
+                    </div>
+                    <div class="profile">
+                        <span>Liam Michael</span>
+                        <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <section class="search-filter">
+            <h3>Search and Filter Options</h3>
+            <input type="text" placeholder="Search by name, location, or symptoms">
+            <button>Search</button>
+        </section>
+
+        <section class="user-reports">
+            <h3>User Reports</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Symptoms</th>
+                        <th>Medical History</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="#">John Doe</a></td>
+                        <td>Flu, Cough</td>
+                        <td>None</td>
+                        <td>Downtown</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Jane Smith</a></td>
+                        <td>Allergy</td>
+                        <td>Asthma</td>
+                        <td>North Region</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Alice Johnson</a></td>
+                        <td>Cold</td>
+                        <td>None</td>
+                        <td>East Side</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>

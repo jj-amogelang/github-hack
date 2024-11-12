@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Geographic Health Trends</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>DumelaHealth</h2>
+        <ul>
+            <li><a href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
+            <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
+            <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
+            <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li> 
+        </ul>
+    </div>
+    <div class="main-content">
+        <header class="navbar">
+            <div class="navbar-content">
+                <div class="search-container">
+                    <input type="text" placeholder="Search here...">
+                </div>
+                <div class="user-info">
+                    <div class="icon-container">
+                        <span class="icon">🔔</span> <!-- Notifications Icon -->
+                        <span class="icon">⚙️</span> <!-- Settings Icon -->
+                    </div>
+                    <div class="profile">
+                        <span>Liam Michael</span>
+                        <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <section class="interactive-map">
+            <h3>Interactive Map</h3>
+            <div class="map-placeholder">Map Placeholder (Integrate with a mapping library)</div>
+            <div class="filters">
+                <label for="time-period">Time Period:</label>
+                <select id="time-period">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+                <label for="condition">Condition:</label>
+                <select id="condition">
+                    <option value="all">All Conditions</option>
+                    <option value="flu">Flu</option>
+                    <option value="cold">Cold</option>
+                    <option value="allergy">Allergy</option>
+                </select>
+                <button>Apply Filters</button>
+            </div>
+        </section>
+
+        <section class="top-affected-regions">
+            <h3>Top Affected Regions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Condition</th>
+                        <th>Reported Cases</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Downtown</td>
+                        <td>Flu</td>
+                        <td>150</td>
+                    </tr>
+                    <tr>
+                        <td>North Region</td>
+                        <td>Allergy</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>East Side</td>
+                        <td>Cold</td>
+                        <td>100</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="area-heatmap">
+            <h3>Area Heatmap</h3>
+            <div class="heatmap-placeholder">Heatmap Placeholder (Integrate with a heatmap library)</div>
+        </section>
+    </div>
+</body>
+</html>

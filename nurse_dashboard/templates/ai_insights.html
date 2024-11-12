@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>AI Insights & Recommendations</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>DumelaHealth</h2>
+        <ul>
+            <li><a href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
+            <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
+            <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
+            <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li> 
+        </ul>
+    </div>
+    <div class="main-content">
+        <header class="navbar">
+            <div class="navbar-content">
+                <div class="search-container">
+                    <input type="text" placeholder="Search here...">
+                </div>
+                <div class="user-info">
+                    <div class="icon-container">
+                        <span class="icon">🔔</span> <!-- Notifications Icon -->
+                        <span class="icon">⚙️</span> <!-- Settings Icon -->
+                    </div>
+                    <div class="profile">
+                        <span>Liam Michael</span>
+                        <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <section class="prominent-conditions">
+            <h3>Prominent Conditions</h3>
+            <ul>
+                <li>Flu - 300 reports</li>
+                <li>Allergy - 200 reports</li>
+                <li>Cold - 150 reports</li>
+            </ul>
+        </section>
+
+        <section class="critical-regions">
+            <h3>Critical Regions</h3>
+            <ul>
+                <li>Downtown - High flu cases</li>
+                <li>North Region - Allergy spikes</li>
+                <li>East Side - Increased cold symptoms</li>
+            </ul>
+        </section>
+
+        <section class="predictive-insights">
+            <h3>Predictive Insights</h3>
+            <p>Based on current trends, we predict a potential outbreak of flu in the upcoming weeks, especially in the downtown area.</p>
+            <p>Seasonal allergies are expected to peak in the North Region next month.</p>
+        </section>
+    </div>
+</body>
+</html>
