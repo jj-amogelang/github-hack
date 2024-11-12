@@ -1,0 +1,125 @@
+<!-- templates/chat_assistant.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+        }
+        .container{
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            width: 80%;
+        }
+        .feature {
+            background: #2a2a2a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        .feature i {
+            font-size: 40px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            width: 80%;
+        }
+        .input-container input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .input-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+        <h1>DumelaHealth</h1>
+        <i class="fas fa-bell"></i>
+    </div>
+
+    <div class="container">
+        <h1>How can I help you today?</h1>
+    <p>This code will display a prompt asking the user for their name, and then it will display a greeting message with the name entered by the user.</p>
+    
+    <div class="feature-grid">
+        <div class="feature">
+            <i class="fas fa-file-alt"></i>
+            <p>Saved Prompt Templates</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-image"></i>
+            <p>Media Type Selection</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-language"></i>
+            <p>Multilingual Support</p>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <input type="text" placeholder="Type your prompt here...">
+        <button><i class="fas fa-paper-plane"></i></button>
+    </div>
+    </div>
+</body>
+</html>

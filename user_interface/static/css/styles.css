@@ -1,0 +1,94 @@
+user_interface/static/css/styles.css
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: white;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.nav-links .book-call {
+    background-color: #00ff00; /* Bright green */
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    margin-top: 60px; /* To avoid overlap with navbar */
+}
+
+h1 {
+    font-size: 3em;
+    margin: 0;
+}
+
+.highlight {
+    color: #00ff00; /* Bright green for emphasis */
+}
+
+.advice-form {
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #00ff00; /* Bright green */
+    color: black;
+    cursor: pointer;
+}
+
+.call-to-action {
+    margin-top: 20px;
+}
+
+.book-call {
+    background-color: transparent;
+    border: 2px solid #00ff00;
+    color: #00ff00;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+}
