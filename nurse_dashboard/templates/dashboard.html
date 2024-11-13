@@ -15,7 +15,8 @@
             <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
             <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
             <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
-            <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li> 
+            <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li> 
         </ul>
     </div>
     <div class="main-content">
@@ -30,15 +31,15 @@
                         <span class="icon">⚙️</span> <!-- Settings Icon -->
                     </div>
                     <div class="profile">
-                        <span>Liam Michael</span>
+                        <span>{{ username }}</span>
                         <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
                     </div>
                 </div>
             </div>
         </header>
         <section class="greeting">
-            <h2>Good Morning, Daniel Bruk</h2>
-            <p>Have a nice day at work it seems like you're referring to Daniel Bruk.</p>
+            <h2>Good Morning, {{ username }}</h2>
+            <p>Have a nice day at work, {{ username }}.</p>
             <button>Create Appointment</button>
         </section>
         
