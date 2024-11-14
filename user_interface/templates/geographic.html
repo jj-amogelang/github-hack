@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -53,6 +53,16 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .nav-buttons a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
         }
         .search-container input {
             padding: 5px;
@@ -130,7 +140,7 @@
     <div class="sidebar">
         <h2>DumelaHealth</h2>
         <ul>
-            <li><a href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
             <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
             <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
@@ -141,8 +151,9 @@
     <div class="main-content">
         <header class="navbar">
             <div class="navbar-content">
-                <div class="search-container">
-                    <input type="text" placeholder="Search here...">
+                <div class="nav-buttons">
+                    <a href="/">Home</a> <!-- Home Menu -->
+                    <a href="/settings">Settings</a> <!-- Settings Menu -->
                 </div>
                 <div class="user-info">
                     <div class="icon-container">
@@ -172,6 +183,10 @@
                 <button onclick="applyFilters()">Apply Filters</button>
             </div>
         </section>
+        <div class="content">
+            <h1>Geographical Visualization</h1>
+            <div id="map"></div>
+        </div>
     </div>
     <script>
         function applyFilters() {
@@ -179,20 +194,39 @@
         }
 
         // Initialize the map
+        //const map = L.map('map').setView([-26.2041, 28.0473], 10); // Centered on Johannesburg
+        //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        //}).addTo(map);
+
+        // Example data for heatmap
+        //const heatData = [
+        //    [-26.2041, 28.0473, 0.5], // Example coordinates with intensity
+        //    [-26.2041, 28.0573, 0.8],
+        //    [-26.2141, 28.0473, 0.3]
+        //];
+
+        // Add heatmap layer
+        //L.heatLayer(heatData, { radius: 25 }).addTo(map);
+
+
+        // Initialize the map
         const map = L.map('map').setView([-26.2041, 28.0473], 10); // Centered on Johannesburg
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Example data for heatmap
-        const heatData = [
-            [-26.2041, 28.0473, 0.5], // Example coordinates with intensity
-            [-26.2041, 28.0573, 0.8],
-            [-26.2141, 28.0473, 0.3]
-        ];
-
-        // Add heatmap layer
-        L.heatLayer(heatData, { radius: 25 }).addTo(map);
+        // Function to update the map with markers
+        function updateMap(data) {
+            data.forEach(item => {
+                const color = item.count > 10 ? 'red' : item.count > 5 ? 'orange' : 'green';
+                const marker = L.circleMarker([item.lat, item.lng], {
+                    color: color,
+                    radius: 10
+                }).addTo(map);
+                marker.bindPopup(`<b>${item.region}</b><br>${item.medical_condition}: ${item.count}`);
+            });
+        }
     </script>
 </body>
 </html>

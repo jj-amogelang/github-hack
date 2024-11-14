@@ -79,8 +79,8 @@ function sendMessage() {
             age: age,
             area: area,
             medical_condition: medicalCondition,
-            longitude: areaCoordinates[area].longitude,
-            latitude: areaCoordinates[area].latitude,
+            longitude: areaCoordinates[area].lng,
+            latitude: areaCoordinates[area].lat,
             date: new Date().toISOString() // Add the current date and time
         };
 

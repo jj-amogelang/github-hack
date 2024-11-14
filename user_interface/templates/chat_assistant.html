@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         /* Reset default styling */
@@ -65,18 +66,16 @@
 
         /* Container and main content */
         .container {
-            width: 100%;
-            max-width: 900px;
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         .main-content {
-            padding: 25px;
-            text-align: center;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .main-content h2 {
@@ -94,13 +93,11 @@
 
         /* Chat bot styling */
         .chat-bot {
-            background: #f3f4f8;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 15px;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
 
         #chatbox {
@@ -120,11 +117,7 @@
         .chatbox-input {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 25px;
-            background: #f1f1f1;
-            border: 1px solid #ccc;
+            margin-top: 20px;
         }
 
         .chatbox-input i,
@@ -135,12 +128,10 @@
 
         .chatbox-input input[type="text"] {
             flex: 1;
-            border: none;
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 20px;
-            outline: none;
-            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
         }
 
         .chatbox-input input::placeholder {
@@ -170,6 +161,25 @@
             max-width: 80%;
             align-self: flex-start;
         }
+
+        .nurse-dashboard-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nurse-dashboard-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -198,16 +208,18 @@
                 <div id="chatbox">
                     <div id="chat"></div>
                 </div>
-            </div>
 
-            <div class="frame">
-                <div class="chatbox-input">
-                    <i class="fa-regular fa-face-grin"></i>
-                    <i class="fa-sharp fa-solid fa-paperclip"></i>
-                    <input type="text" id="user-input" placeholder="Type your message here..." />
-                    <img src="{{ url_for('static', filename='images/sendicon.png') }}" id="startButton" onclick="sendMessage()" style="height: 50px; width: 50px;">
+                <div class="frame">
+                    <div class="chatbox-input">
+                        <i class="fa-regular fa-face-grin"></i>
+                        <i class="fa-sharp fa-solid fa-paperclip"></i>
+                        <input type="text" id="user-input" placeholder="Type your message here..." />
+                        <img src="{{ url_for('static', filename='images/sendicon.png') }}" id="startButton" onclick="sendMessage()" style="height: 50px; width: 50px;">
+                    </div>
                 </div>
             </div>
+            <!-- Button to redirect to the nurse dashboard -->
+            <button class="nurse-dashboard-button" onclick="window.location.href='/dashboard'">Go to Nurse Dashboard</button>
         </div>
     </div>
 
@@ -215,4 +227,3 @@
 </body>
 
 </html>
-

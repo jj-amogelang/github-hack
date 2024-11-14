@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -55,6 +55,16 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .nav-buttons a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
         }
         .search-container input {
             padding: 5px;
@@ -135,7 +145,7 @@
     <div class="sidebar">
         <h2>DumelaHealth</h2>
         <ul>
-            <li><a href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
             <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
             <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
@@ -146,8 +156,9 @@
     <div class="main-content">
         <header class="navbar">
             <div class="navbar-content">
-                <div class="search-container">
-                    <input type="text" placeholder="Search here...">
+                <div class="nav-buttons">
+                    <a href="/">Home</a> <!-- Home Menu -->
+                    <a href="/settings">Settings</a> <!-- Settings Menu -->
                 </div>
                 <div class="user-info">
                     <div class="icon-container">
