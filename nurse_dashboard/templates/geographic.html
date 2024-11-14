@@ -6,7 +6,125 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <title>Geographic Health Trends</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+        }
+        .sidebar h2 {
+            color: #ecf0f1;
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+        }
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .navbar {
+            background-color: #ecf0f1;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-container input {
+            padding: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .icon-container {
+            margin-right: 10px;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+        .profile span {
+            margin-right: 10px;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .content h1 {
+            margin-top: 0;
+        }
+        .interactive-map {
+            margin-top: 20px;
+        }
+        .interactive-map h3 {
+            margin-top: 0;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .filters {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filters label {
+            margin-right: 5px;
+        }
+        .filters select, .filters button {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .filters button {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            cursor: pointer;
+        }
+        .filters button:hover {
+            background-color: #34495e;
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -17,7 +135,7 @@
             <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
             <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
             <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li>
-            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>  
         </ul>
     </div>
     <div class="main-content">
@@ -32,15 +150,15 @@
                     </div>
                     <div class="profile">
                         <span>{{ username }}</span>
-                        <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
+                        <img src="{{ url_for('static', filename='images/drjj.jpeg') }}" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
                     </div>
                 </div>
             </div>
         </header>
         
-        <section class="interactive-map">
+        <section class="interactive-map content">
             <h3>Interactive Map</h3>
-            <div id="map" style="height: 500px;"></div>
+            <div id="map"></div>
             <div class="filters">
                 <label for="time-period">Time Period:</label>
                 <select id="time-period">
@@ -50,77 +168,31 @@
                 <label for="condition">Condition:</label>
                 <select id="condition">
                     <option value="all">All Conditions</option>
-                    <option value="Respiratory Infection">Respiratory Infection</option>
-                    <option value="Fever">Fever</option>
-                    <option value="Hypertension">Hypertension</option>
-                    <option value="Diabetes">Diabetes</option>
-                    <option value="Asthma">Asthma</option>
                 </select>
                 <button onclick="applyFilters()">Apply Filters</button>
             </div>
         </section>
-
-        <section class="top-affected-regions">
-            <h3>Top Affected Regions</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Area</th>
-                        <th>Condition</th>
-                        <th>Count</th>
-                    </tr>
-                </thead>
-                <tbody id="top-affected-regions-body">
-                    <!-- Data will be inserted here by JavaScript -->
-                </tbody>
-            </table>
-        </section>
-
-        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script>
-            var map = L.map('map').setView([-26.2041, 28.0473], 13); // Johannesburg coordinates
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            function applyFilters() {
-                var timePeriod = document.getElementById('time-period').value;
-                var condition = document.getElementById('condition').value;
-
-                fetch(`/api/geographic-data?time_period=${timePeriod}&condition=${condition}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Clear existing markers
-                        map.eachLayer((layer) => {
-                            if (layer instanceof L.Marker) {
-                                map.removeLayer(layer);
-                            }
-                        });
-
-                        // Add new markers
-                        data.forEach(item => {
-                            L.marker([item.lat, item.lng]).addTo(map)
-                                .bindPopup(`<b>${item.area}</b><br>${item.medical_condition}`);
-                        });
-                    });
-
-                fetch(`/api/top-affected-regions?time_period=${timePeriod}&condition=${condition}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        var tbody = document.getElementById('top-affected-regions-body');
-                        tbody.innerHTML = ''; // Clear existing rows
-                        data.forEach(item => {
-                            var row = document.createElement('tr');
-                            row.innerHTML = `<td>${item.area}</td><td>${item.medical_condition}</td><td>${item.count}</td>`;
-                            tbody.appendChild(row);
-                        });
-                    });
-            }
-
-            // Initial load
-            applyFilters();
-        </script>
     </div>
+    <script>
+        function applyFilters() {
+            // Implement filter logic here
+        }
+
+        // Initialize the map
+        const map = L.map('map').setView([-26.2041, 28.0473], 10); // Centered on Johannesburg
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Example data for heatmap
+        const heatData = [
+            [-26.2041, 28.0473, 0.5], // Example coordinates with intensity
+            [-26.2041, 28.0573, 0.8],
+            [-26.2141, 28.0473, 0.3]
+        ];
+
+        // Add heatmap layer
+        L.heatLayer(heatData, { radius: 25 }).addTo(map);
+    </script>
 </body>
 </html>

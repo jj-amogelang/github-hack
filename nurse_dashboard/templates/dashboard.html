@@ -5,7 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+        }
+        .sidebar h2 {
+            color: #ecf0f1;
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            text-align: center;
+        }
+        .sidebar ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+        }
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .navbar {
+            background-color: #ecf0f1;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-container input {
+            padding: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .icon-container {
+            margin-right: 10px;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+        .profile span {
+            margin-right: 10px;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .content h1 {
+            margin-top: 0;
+        }
+        .summary-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .summary-stats .stat {
+            flex: 1;
+            min-width: 200px;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .recent-activity {
+            margin-top: 20px;
+        }
+        .recent-activity h2 {
+            margin-top: 0;
+        }
+        .recent-activity ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .recent-activity ul li {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -28,63 +152,105 @@
                 <div class="user-info">
                     <div class="icon-container">
                         <span class="icon">🔔</span> <!-- Notifications Icon -->
-                        <span class="icon">⚙️</span> <!-- Settings Icon -->
                     </div>
                     <div class="profile">
                         <span>{{ username }}</span>
-                        <img src="path/to/profile-pic.jpg" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
+                        <img src="{{ url_for('static', filename='images/drjj.jpeg') }}" alt="Profile" class="profile-pic"> <!-- Profile Picture -->
                     </div>
                 </div>
             </div>
         </header>
         <section class="greeting">
-            <h2>Good Morning, {{ username }}</h2>
-            <p>Have a nice day at work, {{ username }}.</p>
-            <button>Create Appointment</button>
+            <h2>Hello, {{ username }}</h2>
+            <p>Lets get to work, {{ username }}.</p>
+            <button>Calender</button>
         </section>
-        
-        <section class="stats">
-            <div class="stat">
-                <h3>Total Reported Symptoms</h3>
-                <p>350 <span>(Last 30 days)</span></p>
+        <div class="content">
+            <h1>Dashboard</h1>
+            <div class="summary-stats">
+                <div class="stat">
+                    <h3>Total Cases Reported</h3>
+                    <p>{{ total_cases }}</p>
+                </div>
+                <div class="stat">
+                    <h3>Active Cases by Condition</h3>
+                    <ul>
+                        {% for condition, count in active_cases.items() %}
+                        <li>{{ condition }}: {{ count }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="stat">
+                    <h3>Cases by Gender and Age Groups</h3>
+                    <ul>
+                        {% for gender, age_groups in cases_by_gender_age.items() %}
+                        <li>{{ gender }}:
+                            <ul>
+                                {% for age_group, count in age_groups.items() %}
+                                <li>{{ age_group }}: {{ count }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="stat">
+                    <h3>Most Affected Areas</h3>
+                    <ul>
+                        {% for area, count in most_affected_areas.items() %}
+                        <li>{{ area }}: {{ count }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-            <div class="stat">
-                <h3>New Patients</h3>
-                <p>140 <span>(20% vs last month)</span></p>
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <ul>
+                    {% for activity in recent_activities %}
+                    <li>{{ activity.date }} - {{ activity.medical_condition }} in {{ activity.area }}</li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="stat">
-                <h3>Operations</h3>
-                <p>56 <span>(15% vs last month)</span></p>
-            </div>
-            <div class="stat">
-                <h3>Earnings</h3>
-                <p>$20,25 <span>(30% vs last month)</span></p>
-            </div>
-        </section>
-
-        <section class="heatmap">
-            <h3>Real-Time Location Heatmap</h3>
-            <div class="heatmap-placeholder">Heatmap Placeholder</div>
-        </section>
-
-        <section class="trending-conditions">
-            <h3>Trending Conditions</h3>
-            <ul>
-                <li>Condition A - 120 reports</li>
-                <li>Condition B - 95 reports</li>
-                <li>Condition C - 80 reports</li>
-            </ul>
-        </section>
-
-        <section class="urgent-alerts">
-            <h3>Urgent Alerts</h3>
-            <div class="alert">
-                <p><strong>Alert:</strong> Surge in flu cases reported in the downtown area!</p>
-            </div>
-            <div class="alert">
-                <p><strong>Alert:</strong> Outbreak of food poisoning in the north region!</p>
-            </div>
-        </section>
+            <div id="map"></div>
+        </div>
     </div>
+    <script>
+        function loadHeatmap() {
+            fetch('/api/interactive-heatmap-data')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (Object.keys(data).length === 0) {
+                        document.getElementById('map').innerHTML = 'No data available for the selected filters.';
+                        return;
+                    }
+
+                    const heatData = [];
+                    for (const area in data) {
+                        for (const condition in data[area]) {
+                            const { lat, lng, count } = data[area][condition];
+                            heatData.push([lat, lng, count]);
+                        }
+                    }
+
+                    const map = L.map('map').setView([-26.2041, 28.0473], 10); // Centered on Johannesburg
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                    L.heatLayer(heatData, { radius: 25 }).addTo(map);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        // Load the heatmap when the page loads
+        document.addEventListener('DOMContentLoaded', loadHeatmap);
+    </script>
 </body>
 </html>

@@ -96,6 +96,10 @@ header.navbar {
     background-color: #e0f7fa;
     padding: 20px;
     border-radius: 5px;
+    background-image: url('/nurse_dashboard/static/images/medical.jpg'); /* Add your image path here */
+    background-size: cover; /* Adjust the size of the background image */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
 }
 
 .stats {

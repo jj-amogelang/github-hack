@@ -3,13 +3,20 @@ from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 from ibm_watson import ApiException, LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime, timedelta
+from collections import Counter
+import pandas as pd
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Replace with your actual secret key
 
 # MongoDB connection
 client = MongoClient('mongodb://localhost:27017/')  # Replace with your MongoDB URI
-db = client['chat_assistant_db']
+db = client['dumelahealth']
 user_inputs_collection = db['user_inputs']
+users_collection = db['users']
+user_data_collection = db['user_data']  # Updated collection name
 
 @app.route('/')
 def home():
@@ -60,6 +67,22 @@ def store_input():
     user_input = request.json
     user_inputs_collection.insert_one(user_input)
     return jsonify({"status": "success"}), 201
+
+@app.route('/api/store-user-data', methods=['POST'])
+def store_user_data():
+    data = request.json
+    print('Received data:', data)  # Debugging log
+    user_inputs_collection.insert_one({
+        'id': data['id'],
+        'gender': data['gender'],
+        'age': data['age'],
+        'area': data['area'],
+        'medical_condition': data['medical_condition'],
+        'lng': data['lng'],
+        'lat': data['lat'],
+        'date': datetime.fromisoformat(data['date'])
+    })
+    return jsonify({'message': 'Your data has been stored successfully.'})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
