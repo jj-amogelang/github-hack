@@ -19,7 +19,7 @@ users_collection = db['users']
 user_data_collection = db['user_data']  # Updated collection name
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 @app.route('/get-started')
