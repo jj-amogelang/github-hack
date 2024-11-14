@@ -7,7 +7,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 from collections import Counter
 import pandas as pd
-from prophet import Prophet
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with your actual secret key
@@ -324,16 +323,16 @@ def predict_conditions():
     df_prophet.columns = ['ds', 'y']
 
     # Initialize and train the model
-    model = Prophet()
-    model.fit(df_prophet)
+    #model = Prophet()
+    #model.fit(df_prophet)
 
     # Make future predictions
-    future = model.make_future_dataframe(periods=30)  # Predict for the next 30 days
-    forecast = model.predict(future)
+    #future = model.make_future_dataframe(periods=30)  # Predict for the next 30 days
+    #forecast = model.predict(future)
 
     # Convert forecast to JSON
-    forecast_json = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].to_dict(orient='records')
-    return jsonify(forecast_json)
+    #forecast_json = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].to_dict(orient='records')
+    #return jsonify(forecast_json)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
