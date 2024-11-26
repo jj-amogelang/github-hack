@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1>DumelaHealth</h1>
+        <nav>
+            <ul>
+                <li><a href="/get-started">Home</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>
+        </nav>
+        <i class="fas fa-bell"></i>
+    </div>
+
+    <div class="content">
+        <div class="intro-section">
+            <h2>Welcome to the Skin Condition Image Analysis Tool</h2>
+            <p>This tool is designed to help you analyze images of skin conditions and provide potential diagnoses. It uses advanced image processing techniques and machine learning algorithms to identify patterns and suggest possible conditions.</p>
+            <p><strong>Who is this for?</strong> This tool is for anyone who wants to get a preliminary analysis of a skin condition. It can be particularly useful for individuals who are concerned about a skin issue and want to get an initial assessment before consulting a healthcare professional.</p>
+            <p><strong>How to use this tool:</strong></p>
+            <ol>
+                <li>Take a clear picture of the skin condition you want to analyze.</li>
+                <li>Upload the image using the form below.</li>
+                <li>Click the "Analyze Image" button to get the results.</li>
+            </ol>
+        </div>
+
+        <div class="upload-section">
+            <h2>Upload an Image of Your Skin Condition</h2>
+            <form action="/analyze-image" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit">Analyze Image</button>
+            </form>
+        </div>
+
+        <div class="results-section">
+            {% if result %}
+                <h2>Analysis Results</h2>
+                <p>{{ result }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

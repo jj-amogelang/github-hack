@@ -25,9 +25,31 @@
             font-size: 24px;
             margin: 0;
         }
+        .header nav ul {
+           list-style: none;
+           margin: 0;
+           padding: 0;
+           display: flex;
+           gap: 20px;
+        }
+
+        .header nav ul li {
+            display: inline;
+        }
+        .header nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .header nav ul li a:hover {
+            color: #4CAF50;
+        }
         .features {
             padding: 20px;
             text-align: center;
+            margin-left: 150px;
+            margin-right: 150px;
         }
         .features h2 {
             font-size: 24px;
@@ -60,6 +82,19 @@
             font-size: 16px;
             margin: 0;
             color: #333;
+        }
+        .feature button {
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .feature button:hover {
+            background-color: #0056b3;
         }
         .appointment {
             padding: 20px;
@@ -137,6 +172,13 @@
 <body>
     <div class="header">
         <h1>DumelaHealth</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>
+        </nav>
         <i class="fas fa-bell"></i>
     </div>
 
@@ -153,24 +195,29 @@
         <h2>Our Features</h2>
         <div class="feature-grid">
             <div class="feature">
-                <i class="fas fa-stethoscope"></i>
-                <p>Symptom Checker</p>
+                <i class="fas fa-bell"></i>
+                <p>Medication Reminders</p>
+                <button onclick="location.href='#'">Set Reminders</button>
+            </div>
+            <div class="feature">
+                <i class="fas fa-comments"></i>
+                <p>Chat Assistant</p>
+                <button onclick="location.href='/chat-assistant'">Start Chat</button>
+            </div>
+            <div class="feature">
+                <i class="fas fa-user-check"></i>
+                <p>Profile Check</p>
+                <button onclick="location.href='#'">Check Profile</button>
+            </div>
+            <div class="feature">
+                <i class="fas fa-camera"></i>
+                <p>Image Analysis</p>
+                <button onclick="location.href='/image-analysis'">Analyze Image</button>
             </div>
             <div class="feature">
                 <i class="fas fa-video"></i>
                 <p>Teleconsultation</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-file-invoice"></i>
-                <p>Insurance Assistance</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-bell"></i>
-                <p>Medication Reminders</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-file-alt"></i>
-                <p>Scan your Report</p>
+                <button onclick="location.href='#'">Book Teleconsultation</button>
             </div>
         </div>
     </div>

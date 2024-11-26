@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
     <title>Dashboard</title>
     <style>
         body {
@@ -60,7 +58,6 @@
             display: flex;
             gap: 15px;
         }
-
         .navbar .nav-buttons a {
             text-decoration: none;
             color: #333;
@@ -102,18 +99,61 @@
             margin-top: 0;
         }
         .summary-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            margin-top: 20px;
+            position: relative;
         }
-        .summary-stats .stat {
-            flex: 1;
-            min-width: 200px;
-            background-color: #ecf0f1;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+        .summary-stats h2 {
+            display: inline-block;
+        }
+        .toggle-buttons {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+        }
+        .toggle-buttons button {
+            background-color: transparent;
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-radius: 0;
+        }
+        .toggle-buttons button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .toggle-buttons button:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .summary-stats table, .summary-stats .chart-container {
+            display: none;
+        }
+        .summary-stats table.active, .summary-stats .chart-container.active {
+            display: block;
+        }
+        .summary-stats table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .summary-stats th, .summary-stats td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .summary-stats th {
+            background-color: #f2f2f2;
+        }
+        .summary-stats ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .summary-stats ul li {
+            margin-bottom: 5px;
         }
         .recent-activity {
             margin-top: 20px;
@@ -132,13 +172,6 @@
             margin-bottom: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        #map {
-            height: 300px;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -146,7 +179,6 @@
         <h2>DumelaHealth</h2>
         <ul>
             <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="/geographic"><i class="fas fa-globe"></i> Geographic Health Trends</a></li>
             <li><a href="/user-data"><i class="fas fa-user-md"></i> User Data</a></li>
             <li><a href="/ai-insights"><i class="fas fa-brain"></i> AI Insights & Recommendations</a></li>
             <li><a href="/notifications"><i class="fas fa-bell"></i> Notifications and Alerts</a></li>
@@ -157,7 +189,7 @@
         <header class="navbar">
             <div class="navbar-content">
                 <div class="nav-buttons">
-                    <a href="/">Home</a> <!-- Home Menu -->
+                    <a href="/get-started">Home</a> <!-- Home Menu -->
                     <a href="/settings">Settings</a> <!-- Settings Menu -->
                 </div>
                 <div class="user-info">
@@ -173,95 +205,132 @@
         </header>
         <section class="greeting">
             <h2>Hello, {{ username }}</h2>
-            <p>Lets get to work, {{ username }}.</p>
-            <button>Calender</button>
+            <p>Let's get to work, {{ username }}.</p>
+            <button>Calendar</button>
         </section>
         <div class="content">
             <h1>Dashboard</h1>
             <div class="summary-stats">
-                <div class="stat">
-                    <h3>Total Cases Reported</h3>
-                    <p>{{ total_cases }}</p>
+                <h2>Summary Statistics</h2>
+                <div class="toggle-buttons">
+                    <button id="toggle-table" class="active">Table</button>
+                    <button id="toggle-chart">Graph</button>
                 </div>
-                <div class="stat">
-                    <h3>Active Cases by Condition</h3>
-                    <ul>
-                        {% for condition, count in active_cases.items() %}
-                        <li>{{ condition }}: {{ count }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="stat">
-                    <h3>Cases by Gender and Age Groups</h3>
-                    <ul>
-                        {% for gender, age_groups in cases_by_gender_age.items() %}
-                        <li>{{ gender }}:
-                            <ul>
-                                {% for age_group, count in age_groups.items() %}
-                                <li>{{ age_group }}: {{ count }}</li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="stat">
-                    <h3>Most Affected Areas</h3>
-                    <ul>
-                        {% for area, count in most_affected_areas.items() %}
-                        <li>{{ area }}: {{ count }}</li>
-                        {% endfor %}
-                    </ul>
+                <table class="active">
+                    <thead>
+                        <tr>
+                            <th>Statistic</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total Cases Reported</td>
+                            <td>{{ total_cases }}</td>
+                        </tr>
+                        <tr>
+                            <td>Active Cases by Condition</td>
+                            <td>
+                                <ul>
+                                    {% for condition, count in active_cases.items() %}
+                                    <li>{{ condition }}: {{ count }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cases by Gender and Age Groups</td>
+                            <td>
+                                <ul>
+                                    {% for gender, age_groups in cases_by_gender_age.items() %}
+                                    <li>{{ gender }}:
+                                        <ul>
+                                            {% for age_group, count in age_groups.items() %}
+                                            <li>{{ age_group }}: {{ count }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Most Affected Areas</td>
+                            <td>
+                                <ul>
+                                    {% for area, count in most_affected_areas.items() %}
+                                    <li>{{ area }}: {{ count }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="chart-container">
+                    <canvas id="summaryChart"></canvas>
                 </div>
             </div>
-            <div class="recent-activity">
-                <h2>Recent Activity</h2>
-                <ul>
-                    {% for activity in recent_activities %}
-                    <li>{{ activity.date }} - {{ activity.medical_condition }} in {{ activity.area }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="map"></div>
         </div>
     </div>
     <script>
-        function loadHeatmap() {
-            fetch('/api/interactive-heatmap-data')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (Object.keys(data).length === 0) {
-                        document.getElementById('map').innerHTML = 'No data available for the selected filters.';
-                        return;
-                    }
+        document.getElementById('toggle-table').addEventListener('click', function() {
+            document.querySelector('.summary-stats table').classList.add('active');
+            document.querySelector('.summary-stats .chart-container').classList.remove('active');
+            this.classList.add('active');
+            document.getElementById('toggle-chart').classList.remove('active');
+        });
 
-                    const heatData = [];
-                    for (const area in data) {
-                        for (const condition in data[area]) {
-                            const { lat, lng, count } = data[area][condition];
-                            heatData.push([lat, lng, count]);
-                        }
-                    }
+        document.getElementById('toggle-chart').addEventListener('click', function() {
+            document.querySelector('.summary-stats table').classList.remove('active');
+            document.querySelector('.summary-stats .chart-container').classList.add('active');
+            this.classList.add('active');
+            document.getElementById('toggle-table').classList.remove('active');
+            loadChart();
+        });
 
-                    const map = L.map('map').setView([-26.2041, 28.0473], 10); // Centered on Johannesburg
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-
-                    L.heatLayer(heatData, { radius: 25 }).addTo(map);
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
+        async function fetchData() {
+            const response = await fetch('/api/conditions_by_region');
+            return await response.json();
         }
 
-        // Load the heatmap when the page loads
-        document.addEventListener('DOMContentLoaded', loadHeatmap);
+        async function loadChart() {
+            const result = await fetchData();
+            const data = {
+                labels: result.map(item => item.medical_condition),
+                datasets: [{
+                    label: 'Medical Conditions',
+                    data: result.map(item => item.count),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const ctx = document.getElementById('summaryChart').getContext('2d');
+            const summaryChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
